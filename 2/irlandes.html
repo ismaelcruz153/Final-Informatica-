@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Irlandés - Café Aroma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap">
+    <link rel="stylesheet" href="estilo-cafe.css">
+</head>
+<body>
+    <header class="band hero">
+        <div class="inner">
+            <a class="back" href="carta.html">← Volver a la carta</a>
+            <div class="hero-grid">
+                <div class="hero-art"><img src="img/irlandes.jpg" alt="Café Irlandés" width="640" height="640"></div>
+                <div class="hero-text">
+                    <h1>Café Irlandés</h1>
+                    <p class="subtitle">espresso, whisky irlandés y nata flotante (contiene alcohol)</p>
+                    <div class="facts">
+                        <div class="fact"><strong>5 min</strong><span>de preparación</span></div>
+                        <div class="fact"><strong>200 ml</strong><span>por servicio</span></div>
+                    </div>
+                    <p class="aviso">Contiene alcohol: solo para mayores de 18 años.</p>
+                    <div class="buy">
+                        <p class="price" id="precio"></p>
+                        <a class="pill" href="carta.html">Pedir en la carta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="band tan">
+        <div class="inner">
+            <h2>Ingredientes</h2>
+            <ul class="ing-list"><li class="ing"><div class="medal"><span>1 cdta</span></div><div class="name">azúcar morena</div></li><li class="ing"><div class="medal"><span>40 ml</span></div><div class="name">whisky irlandés</div></li><li class="ing"><div class="medal"><span>120 ml</span></div><div class="name">café caliente</div></li><li class="ing"><div class="medal"><span>2 cdas</span></div><div class="name">nata semimontada</div></li></ul>
+        </div>
+    </section>
+
+    <section class="band beige">
+        <div class="inner two">
+            <div>
+                <h2>Su historia</h2>
+                <p class="history">Se cuenta que nació en 1943 en el aeropuerto de Foynes, en Irlanda, cuando el cocinero Joe Sheridan preparó café con whisky y crema para unos pasajeros que habían regresado por el mal tiempo. Años después se popularizó en el mundo, sobre todo desde que un bar de San Francisco empezó a servirlo en la década de 1950. Contiene alcohol: es solo para mayores de 18 años.</p>
+            </div>
+            <div>
+                <h2>Procedimiento</h2>
+                <ol class="steps"><li>Precalienta la taza con agua caliente y vacíala.</li><li>Disuelve el azúcar con el whisky y el café caliente.</li><li>Coloca una cuchara boca abajo sobre el café.</li><li>Vierte la nata sobre la cuchara para que flote.</li></ol>
+            </div>
+        </div>
+    </section>
+
+    <footer class="band foot">
+        <div class="inner">
+            <h2>También te puede gustar</h2>
+            <div class="rel-list"><a class="rel" href="frappe.html"><img src="img/frappe.jpg" alt="" width="150" height="150" loading="lazy"><strong>Frappuccino / Frappé</strong><span>S/ 12</span></a><a class="rel" href="affogato.html"><img src="img/affogato.jpg" alt="" width="150" height="150" loading="lazy"><strong>Affogato</strong><span>S/ 12</span></a><a class="rel" href="cafe-con-leche.html"><img src="img/cafe-con-leche.jpg" alt="" width="150" height="150" loading="lazy"><strong>Café con leche</strong><span>S/ 7</span></a></div>
+            <p class="phrase">“Toda buena mañana empieza con un buen café”</p>
+            <a class="pill" href="carta.html">Volver a la carta</a>
+        </div>
+    </footer>
+
+    <script>
+        var nombre = 'Café Irlandés';
+        var precio = 18;
+
+        var elPrecio = document.getElementById('precio');
+        elPrecio.textContent = 'S/ ' + precio;
+    </script>
+</body>
+</html>

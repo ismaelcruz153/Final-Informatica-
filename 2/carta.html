@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra carta - Café Aroma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --negro: #140e0c; --panel: #2a1a14; --linea: #4a2f22; --oro: #e6c28f; --crema: #f4e8d6; --tostado: #b98b62; }
+        body { font-family: "Open Sans", Arial, sans-serif; background: var(--negro); color: var(--crema); line-height: 1.6; min-height: 100vh; padding: 28px 16px 48px; }
+        a { color: inherit; }
+        :focus-visible { outline: 3px solid var(--oro); outline-offset: 3px; }
+
+        /* ---------- Fondo: café humeante ---------- */
+        .fondo { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-color: #140e0c;
+            background-image: linear-gradient(rgba(20,14,12,.25), rgba(20,14,12,.25)), url("img/fondo-pagina.jpg");
+            background-size: cover; background-position: center; background-repeat: no-repeat; }
+
+        /* ---------- Panel principal ---------- */
+        .container { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; padding: 40px 36px 36px; text-align: center;
+            background: rgba(24,15,12,.72); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--linea); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+        .back { display: inline-block; margin-bottom: 18px; color: var(--oro); font-size: .95em; text-decoration: none; }
+        .back:hover { text-decoration: underline; }
+        .logo { width: 58px; height: 58px; margin: 0 auto 14px; border-radius: 14px; background: var(--panel); padding: 6px; display: flex; align-items: center; justify-content: center; font-size: 28px; overflow: hidden; }
+        h1 { font-family: "Lobster", Georgia, cursive; font-weight: 400; font-size: clamp(2.6rem, 7vw, 3.8rem); line-height: 1.05; color: var(--oro); margin-bottom: 12px; }
+        h2 { font-family: "Lobster", Georgia, cursive; font-weight: 400; font-size: 1.7rem; color: var(--oro); margin-bottom: 8px; }
+        .section-title { font-family: "Lobster", Georgia, cursive; font-size: 1.7rem; color: var(--oro); margin-top: 30px; }
+        .hint { color: #cdb89a; font-size: .95em; margin: 6px auto 14px; max-width: 60ch; }
+        .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+        .status { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: .88em; font-weight: 700; margin-bottom: 12px; background: #3b2a20; color: var(--crema); }
+        .status.abierto { background: #1f3d22; color: #bfe8b8; }
+        .status.cerrado { background: #4a1f1a; color: #f3b9b0; }
+
+        /* ---------- Botones ---------- */
+        button { font-family: inherit; font-size: .95em; font-weight: 700; padding: 10px 24px; border: 0; border-radius: 999px; background: var(--oro); color: #2a1810; cursor: pointer; transition: background .25s; }
+        button:hover { background: #f3d6a8; }
+        button:disabled { background: #4a382c; color: #9b8873; cursor: not-allowed; }
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 16px 0; }
+        .actions button { flex: 1 1 150px; }
+
+        /* ---------- Carta ---------- */
+        .toolbar { display: flex; gap: 10px; margin: 16px 0 10px; }
+        .toolbar input { flex: 1 1 55%; }
+        .toolbar select { flex: 1 1 45%; }
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0; }
+        button.chip { background: transparent; color: var(--crema); border: 2px solid var(--tostado); padding: 7px 16px; }
+        button.chip:hover { background: rgba(185,139,98,.25); }
+        button.chip.activo { background: var(--tostado); color: #2a1810; }
+        .menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 18px 0; }
+        .card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 18px 10px; background: var(--panel); border: 1px solid var(--linea); border-radius: 14px; transition: border-color .25s; }
+        .card:hover { border-color: var(--oro); }
+        .card a { color: var(--oro); text-decoration: none; font-size: 1.05em; }
+        .card a:hover { text-decoration: underline; }
+        .card button { margin-top: 8px; padding: 7px 18px; }
+        .card-precio { font-weight: 700; font-size: 1.15em; }
+        .card-etiqueta { font-size: .78em; color: #f3b9b0; }
+        .card-cantidad { font-size: .82em; color: #cdb89a; min-height: 1.1em; }
+        .vacio { color: #cdb89a; padding: 14px 0; }
+
+        .order { background: var(--panel); border: 1px solid var(--linea); border-radius: 14px; padding: 20px 20px 16px; margin: 22px 0 14px; text-align: left; }
+        .order h2 { text-align: center; }
+        .cart-line { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--linea); }
+        .cart-nombre { flex: 1 1 auto; }
+        .cart-control { display: flex; align-items: center; gap: 8px; }
+        button.mini { width: 30px; height: 30px; padding: 0; border-radius: 50%; font-size: 17px; line-height: 1; }
+        .cart-cant { min-width: 20px; text-align: center; font-weight: 700; }
+        .cart-sub { min-width: 56px; text-align: right; }
+        .total { font-size: 1.35em; font-weight: 700; text-align: right; margin-top: 12px; color: var(--oro); }
+        .aviso { color: #f3b9b0; font-size: .88em; margin-top: 10px; }
+        .mensaje { color: #bfe8b8; font-weight: 700; text-align: center; margin-top: 10px; min-height: 1.2em; }
+
+        /* ---------- Formulario de reservas ---------- */
+        form { text-align: left; margin: 22px 0; }
+        .field { margin-bottom: 16px; }
+        label, legend { display: block; font-weight: 700; font-size: .95em; margin-bottom: 6px; color: var(--crema); }
+        legend { color: var(--oro); padding: 0 8px; }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="search"], select, textarea {
+            width: 100%; padding: 11px 14px; font-size: 1em; font-family: inherit; color: var(--crema);
+            background: var(--panel); border: 2px solid var(--linea); border-radius: 10px; color-scheme: dark; }
+        input::placeholder, textarea::placeholder { color: #a8927a; }
+        input:focus, select:focus, textarea:focus { border-color: var(--oro); outline: none; }
+        select option { background: #2a1a14; color: var(--crema); }
+        textarea { resize: vertical; min-height: 84px; }
+        .invalido { border-color: #e2685a; }
+        fieldset { border: 2px solid var(--linea); border-radius: 10px; padding: 12px 16px 8px; margin-bottom: 16px; }
+        fieldset.invalido { border-color: #e2685a; }
+        .error { color: #f3a79b; font-size: .85em; margin-top: 4px; min-height: 1.2em; }
+        .opcion { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .opcion input { width: 18px; height: 18px; flex: 0 0 auto; accent-color: var(--oro); }
+        .opcion label { margin: 0; font-weight: 400; }
+        .contador-letras { color: #a8927a; font-size: .8em; text-align: right; }
+        .confirmacion { background: #3b2a20; border-left: 4px solid var(--oro); border-radius: 10px; padding: 18px; margin: 20px 0; line-height: 1.5; text-align: left; }
+        .reserva-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--panel); border: 1px solid var(--linea); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; font-size: .92em; text-align: left; }
+
+        @media (max-width: 560px) {
+            body { padding: 14px 10px 30px; }
+            .container { padding: 28px 18px; }
+            .menu { grid-template-columns: repeat(2, 1fr); }
+            .toolbar { flex-direction: column; }
+            .reserva-item { flex-direction: column; align-items: flex-start; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="fondo" aria-hidden="true">
+    </div>
+    <div class="container">
+        <a class="back" href="cafe-aroma.html">← Volver al inicio</a>
+        <div class="logo">☕</div>
+        <h1>Nuestra carta</h1>
+        <p class="status" id="estado-cafeteria"></p>
+        <p class="hint">Busca, filtra y ordena. Toca el nombre de un café para conocer su historia o «Agregar» para sumarlo a tu pedido.</p>
+
+        <!-- Buscador y orden -->
+        <div class="toolbar">
+            <label class="sr-only" for="buscar">Buscar un café</label>
+            <input type="search" id="buscar" placeholder="Buscar un café…" autocomplete="off">
+
+            <label class="sr-only" for="orden">Ordenar la carta por</label>
+            <select id="orden">
+                <option value="menu">Orden de la carta</option>
+                <option value="ventas">Más vendidos</option>
+                <option value="precio-asc">Precio: de menor a mayor</option>
+                <option value="precio-desc">Precio: de mayor a menor</option>
+                <option value="nombre">Nombre (A–Z)</option>
+            </select>
+        </div>
+
+        <!-- Filtros -->
+        <div class="chips" id="filtros">
+            <button type="button" class="chip activo" data-filtro="todos" aria-pressed="true">Todos</button>
+            <button type="button" class="chip" data-filtro="caliente" aria-pressed="false">Calientes</button>
+            <button type="button" class="chip" data-filtro="frio" aria-pressed="false">Fríos</button>
+            <button type="button" class="chip" data-filtro="leche" aria-pressed="false">Con leche</button>
+            <button type="button" class="chip" data-filtro="sinalcohol" aria-pressed="false">Sin alcohol</button>
+            <button type="button" class="chip" data-filtro="alcohol" aria-pressed="false">Con alcohol</button>
+        </div>
+
+        <p class="hint" id="contador" role="status"></p>
+
+        <!-- El script crea aquí una tarjeta por cada café que cumpla la búsqueda -->
+        <div class="menu" id="carta"></div>
+        <p class="vacio" id="sin-resultados" style="display: none;">No encontramos cafés con esa búsqueda. Prueba con otra palabra o quita un filtro.</p>
+
+        <!-- Pedido -->
+        <section class="order" id="pedido">
+            <h2>Tu pedido</h2>
+            <div id="lineas"></div>
+            <p class="aviso" id="aviso-alcohol" style="display: none;">Tu pedido incluye bebidas con alcohol: son solo para mayores de 18 años.</p>
+            <p class="total" id="total"></p>
+            <div class="actions">
+                <button type="button" id="vaciar">Vaciar pedido</button>
+                <button type="button" id="confirmar">Confirmar pedido</button>
+            </div>
+            <p class="mensaje" id="mensaje" role="status"></p>
+            <p class="hint">Tu pedido se guarda en este navegador, así que sigue aquí si recargas la página.</p>
+        </section>
+    </div>
+
+    <script src="cafes.js"></script>
+    <script src="logo.js"></script>
+    <script>
+        /* ---------- 1. Elementos de la página y datos de partida ---------- */
+        var laCarta = document.getElementById('carta');
+        var cajaBuscar = document.getElementById('buscar');
+        var selectOrden = document.getElementById('orden');
+        var elContador = document.getElementById('contador');
+        var sinResultados = document.getElementById('sin-resultados');
+        var contenedorFiltros = document.getElementById('filtros');
+        var contenedorLineas = document.getElementById('lineas');
+        var elMensaje = document.getElementById('mensaje');
+
+        var filtroActual = 'todos';
+        var carrito = leerCarrito();                 // función de cafes.js
+
+
+        /* ---------- 2. Buscar, filtrar y ordenar ---------- */
+
+        // Pasa a minúsculas y quita tildes: "Café" y "cafe" se tratan igual
+        function sinTildes(texto) {
+            return texto.toLowerCase()
+                .replace(/[áàä]/g, 'a')
+                .replace(/[éèë]/g, 'e')
+                .replace(/[íìï]/g, 'i')
+                .replace(/[óòö]/g, 'o')
+                .replace(/[úùü]/g, 'u');
+        }
+
+        function cumpleFiltro(i) {
+            if (filtroActual === 'todos') {
+                return true;
+            }
+            if (filtroActual === 'sinalcohol') {
+                return !tieneEtiqueta(i, 'alcohol');
+            }
+            return tieneEtiqueta(i, filtroActual);
+        }
+
+        // Devuelve la lista de posiciones (0 a 14) que se deben mostrar, ya ordenadas
+        function listaFiltrada() {
+            var texto = sinTildes(cajaBuscar.value.trim());
+            var resultado = [];
+
+            for (var i = 0; i < menu.length; i++) {
+                var coincide = sinTildes(menu[i] + ' ' + descripciones[i]).indexOf(texto) !== -1;
+                if (coincide && cumpleFiltro(i)) {
+                    resultado.push(i);
+                }
+            }
+
+            var orden = selectOrden.value;
+
+            resultado.sort(function (a, b) {
+                if (orden === 'precio-asc') {
+                    return (precios[a] - precios[b]) || (a - b);
+                }
+                if (orden === 'precio-desc') {
+                    return (precios[b] - precios[a]) || (a - b);
+                }
+                if (orden === 'ventas') {
+                    return ventasAlMes[b] - ventasAlMes[a];
+                }
+                if (orden === 'nombre') {
+                    var nombreA = sinTildes(menu[a]);
+                    var nombreB = sinTildes(menu[b]);
+                    if (nombreA < nombreB) { return -1; }
+                    if (nombreA > nombreB) { return 1; }
+                    return 0;
+                }
+                return a - b;                         // orden original de la carta
+            });
+
+            return resultado;
+        }
+
+
+        /* ---------- 3. Dibujar la carta ---------- */
+        function actualizarCantidades() {
+            for (var i = 0; i < menu.length; i++) {
+                var marca = document.getElementById('cant-' + i);
+                if (marca) {
+                    marca.textContent = (carrito[i] > 0) ? 'En tu pedido: ' + carrito[i] : '';
+                }
+            }
+        }
+
+        function dibujarCarta() {
+            var lista = listaFiltrada();
+            var html = '';
+
+            for (var k = 0; k < lista.length; k++) {
+                var i = lista[k];
+                html += '<div class="card">';
+                html += '<a href="' + paginas[i] + '"><strong>' + menu[i] + '</strong></a>';
+                html += '<span class="card-precio">S/ ' + precios[i] + '</span>';
+                if (tieneEtiqueta(i, 'alcohol')) {
+                    html += '<span class="card-etiqueta">Contiene alcohol (+18)</span>';
+                }
+                html += '<span class="card-cantidad" id="cant-' + i + '"></span>';
+                html += '<button type="button" data-indice="' + i + '" aria-label="Agregar ' + menu[i] + ' al pedido">Agregar</button>';
+                html += '</div>';
+            }
+
+            laCarta.innerHTML = html;
+            sinResultados.style.display = (lista.length === 0) ? 'block' : 'none';
+            elContador.textContent = 'Mostrando ' + lista.length + ' de ' + menu.length + ' cafés';
+            actualizarCantidades();
+        }
+
+
+        /* ---------- 4. Dibujar el pedido ---------- */
+        function dibujarPedido() {
+            var html = '';
+            var hayAlcohol = false;
+
+            for (var i = 0; i < menu.length; i++) {
+                if (carrito[i] > 0) {
+                    html += '<div class="cart-line">';
+                    html += '<span class="cart-nombre">' + menu[i] + '</span>';
+                    html += '<span class="cart-control">';
+                    html += '<button type="button" class="mini" data-accion="menos" data-indice="' + i + '" aria-label="Quitar uno de ' + menu[i] + '">−</button>';
+                    html += '<span class="cart-cant">' + carrito[i] + '</span>';
+                    html += '<button type="button" class="mini" data-accion="mas" data-indice="' + i + '" aria-label="Agregar uno más de ' + menu[i] + '">+</button>';
+                    html += '</span>';
+                    html += '<span class="cart-sub">S/ ' + (carrito[i] * precios[i]) + '</span>';
+                    html += '</div>';
+
+                    if (tieneEtiqueta(i, 'alcohol')) {
+                        hayAlcohol = true;
+                    }
+                }
+            }
+
+            var cantidadTotal = productosEnCarrito(carrito);
+
+            if (html === '') {
+                html = '<p class="vacio">Tu pedido está vacío. Agrega un café de la carta.</p>';
+            }
+
+            contenedorLineas.innerHTML = html;
+            document.getElementById('total').textContent = 'Total: S/ ' + totalCarrito(carrito);
+            document.getElementById('aviso-alcohol').style.display = hayAlcohol ? 'block' : 'none';
+            document.getElementById('confirmar').disabled = (cantidadTotal === 0);
+            document.getElementById('vaciar').disabled = (cantidadTotal === 0);
+        }
+
+
+        /* ---------- 5. Cambiar cantidades ---------- */
+        function cambiarCantidad(i, cambio) {
+            var nueva = carrito[i] + cambio;
+
+            if (nueva < 0) { nueva = 0; }
+            if (nueva > MAX_POR_CAFE) { nueva = MAX_POR_CAFE; }
+
+            carrito[i] = nueva;
+            guardarCarrito(carrito);                 // función de cafes.js
+            elMensaje.textContent = '';
+            actualizarCantidades();
+            dibujarPedido();
+        }
+
+
+        /* ---------- 6. Eventos ---------- */
+
+        // Botones "Agregar" de la carta (un solo oyente para todas las tarjetas)
+        laCarta.addEventListener('click', function (evento) {
+            var indice = evento.target.getAttribute('data-indice');
+            if (indice !== null) {
+                cambiarCantidad(parseInt(indice, 10), 1);
+            }
+        });
+
+        // Botones + y − del pedido
+        contenedorLineas.addEventListener('click', function (evento) {
+            var accion = evento.target.getAttribute('data-accion');
+            var indice = evento.target.getAttribute('data-indice');
+
+            if (accion !== null && indice !== null) {
+                cambiarCantidad(parseInt(indice, 10), accion === 'mas' ? 1 : -1);
+
+                // el botón se vuelve a dibujar: devolvemos el foco para quien usa teclado
+                var mismo = contenedorLineas.querySelector('[data-accion="' + accion + '"][data-indice="' + indice + '"]');
+                if (mismo) {
+                    mismo.focus();
+                }
+            }
+        });
+
+        // Botones de filtro
+        contenedorFiltros.addEventListener('click', function (evento) {
+            var filtro = evento.target.getAttribute('data-filtro');
+            if (filtro === null) {
+                return;
+            }
+
+            filtroActual = filtro;
+
+            var botones = contenedorFiltros.getElementsByTagName('button');
+            for (var i = 0; i < botones.length; i++) {
+                var activo = (botones[i] === evento.target);
+                botones[i].className = activo ? 'chip activo' : 'chip';
+                botones[i].setAttribute('aria-pressed', activo ? 'true' : 'false');
+            }
+
+            dibujarCarta();
+        });
+
+        cajaBuscar.addEventListener('input', dibujarCarta);
+        selectOrden.addEventListener('change', dibujarCarta);
+
+        // Vaciar pedido
+        document.getElementById('vaciar').addEventListener('click', function () {
+            for (var i = 0; i < carrito.length; i++) {
+                carrito[i] = 0;
+            }
+            guardarCarrito(carrito);
+            elMensaje.textContent = '';
+            actualizarCantidades();
+            dibujarPedido();
+        });
+
+        // Confirmar pedido
+        document.getElementById('confirmar').addEventListener('click', function () {
+            var cantidad = productosEnCarrito(carrito);
+            if (cantidad === 0) {
+                return;
+            }
+
+            var total = totalCarrito(carrito);
+            var mensaje = 'Confirmaste ' + cantidad + (cantidad === 1 ? ' bebida' : ' bebidas') + ' por S/ ' + total + '.';
+
+            if (estadoCafeteria().abierto) {         // función de logo.js
+                mensaje += ' Lo tendremos listo en unos minutos.';
+            } else {
+                mensaje += ' Ahora estamos cerrados: lo preparamos desde las 8:00 a. m.';
+            }
+
+            for (var i = 0; i < carrito.length; i++) {
+                carrito[i] = 0;
+            }
+            guardarCarrito(carrito);
+            actualizarCantidades();
+            dibujarPedido();
+            elMensaje.textContent = mensaje;
+        });
+
+
+        /* ---------- 7. Primer dibujo ---------- */
+        dibujarCarta();
+        dibujarPedido();
+    </script>
+</body>
+</html>

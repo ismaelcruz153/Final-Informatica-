@@ -1,0 +1,588 @@
+/* =========================================================
+   estilo.css — estilos compartidos de Café Aroma
+   (inicio, carta y reservas lo usan; las demás páginas
+   pueden seguir con sus estilos propios)
+   ========================================================= */
+
+/* ---------- Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #6f4e37, #3e2723);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* ---------- Tarjeta principal ---------- */
+.container {
+    background: #fffaf3;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    background: #8b5a2b;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    overflow: hidden;
+}
+
+h1 {
+    color: #3e2723;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #8b5a2b;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #7a6a5f;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+.hint {
+    color: #7a6a5f;
+    font-size: 0.85em;
+    margin: 6px 0 12px;
+    line-height: 1.4;
+}
+
+.section-title {
+    color: #3e2723;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.back {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #8b5a2b;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.back:hover {
+    text-decoration: underline;
+}
+
+/* Solo para lectores de pantalla (etiquetas que no se ven) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------- Estado: abierto / cerrado ---------- */
+.status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-bottom: 14px;
+    background: #f3e9dc;
+    color: #3e2723;
+}
+
+.status.abierto {
+    background: #e3f1de;
+    color: #1f5a1f;
+}
+
+.status.cerrado {
+    background: #f6dcd8;
+    color: #8a1f15;
+}
+
+/* ---------- Mensaje de bienvenida ---------- */
+.message-box {
+    background: #8b5a2b;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+#text {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+#detalle-cafe {
+    font-size: 1.05em;
+    min-height: 1.4em;
+}
+
+/* ---------- Botones ---------- */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #8b5a2b;
+    color: white;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #6f4420;
+}
+
+button:disabled {
+    background: #c9b59c;
+    cursor: not-allowed;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.action {
+    flex: 1 1 150px;
+    padding: 12px 14px;
+    background: #8b5a2b;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.95em;
+    transition: background 0.3s;
+}
+
+.action:hover {
+    background: #6f4420;
+}
+
+/* Foco visible para quien navega con el teclado */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #c9a27a;
+    outline-offset: 2px;
+}
+
+/* ---------- Estadísticas ---------- */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0 30px;
+    gap: 8px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #8b5a2b;
+}
+
+.stat-label {
+    color: #7a6a5f;
+    font-size: 0.9em;
+}
+
+/* ---------- Cafés del día de hoy ---------- */
+.today {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 15px 0;
+}
+
+.today-item {
+    display: block;
+    padding: 15px 10px;
+    background: #8b5a2b;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.today-item:hover {
+    background: #6f4420;
+}
+
+.today-item strong {
+    display: block;
+    font-size: 1.05em;
+    margin-bottom: 6px;
+}
+
+.today-item span {
+    display: block;
+    font-size: 0.8em;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.today-item b {
+    font-size: 1.3em;
+}
+
+/* ---------- Características ---------- */
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.feature {
+    padding: 15px;
+    background: #f8f4ee;
+    border-radius: 8px;
+}
+
+.feature p {
+    color: #7a6a5f;
+    font-size: 0.9em;
+}
+
+.footer {
+    margin-top: 30px;
+    color: #8a7d72;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+/* ---------- Carta: buscador, filtros y orden ---------- */
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0 10px;
+}
+
+.toolbar input {
+    flex: 1 1 55%;
+}
+
+.toolbar select {
+    flex: 1 1 45%;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+button.chip {
+    background: #f3e9dc;
+    color: #3e2723;
+    padding: 8px 14px;
+    border-radius: 20px;
+}
+
+button.chip:hover {
+    background: #ead9c3;
+}
+
+button.chip.activo {
+    background: #8b5a2b;
+    color: white;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 8px;
+    background: #f3e9dc;
+    border-radius: 8px;
+    color: #3e2723;
+    font-size: 0.9em;
+}
+
+.card a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+.card button {
+    margin-top: 6px;
+    padding: 6px 14px;
+}
+
+.card-precio {
+    font-weight: bold;
+}
+
+.card-etiqueta {
+    font-size: 0.75em;
+    color: #8a1f15;
+}
+
+.card-cantidad {
+    font-size: 0.8em;
+    color: #6f4420;
+    min-height: 1.1em;
+}
+
+.vacio {
+    color: #7a6a5f;
+    padding: 15px 0;
+}
+
+/* ---------- Pedido (carrito) ---------- */
+.order {
+    background: #f3e9dc;
+    border-radius: 8px;
+    padding: 18px 15px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.order h2 {
+    text-align: center;
+}
+
+.cart-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0cfb8;
+    color: #3e2723;
+}
+
+.cart-nombre {
+    flex: 1 1 auto;
+}
+
+.cart-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+button.mini {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.cart-cant {
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.cart-sub {
+    min-width: 52px;
+    text-align: right;
+}
+
+.total {
+    color: #3e2723;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 12px;
+}
+
+.aviso {
+    color: #8a1f15;
+    font-size: 0.85em;
+    margin-top: 10px;
+}
+
+.mensaje {
+    color: #1f5a1f;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 1.2em;
+}
+
+/* ---------- Formulario de reservas ---------- */
+form {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.field {
+    margin-bottom: 16px;
+}
+
+label,
+legend {
+    display: block;
+    color: #3e2723;
+    font-weight: bold;
+    font-size: 0.95em;
+    margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="search"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #d9c7ae;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: inherit;
+    background: #ffffff;
+    color: #3e2723;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.invalido {
+    border-color: #a12c20;
+}
+
+fieldset.invalido {
+    border: 2px solid #a12c20;
+}
+
+.error {
+    color: #a12c20;
+    font-size: 0.85em;
+    margin-top: 4px;
+    min-height: 1.2em;
+}
+
+fieldset {
+    border: 2px solid #d9c7ae;
+    border-radius: 8px;
+    padding: 12px 14px 8px;
+    margin-bottom: 16px;
+}
+
+legend {
+    padding: 0 6px;
+}
+
+.opcion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #3e2723;
+}
+
+.opcion input {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+
+.opcion label {
+    margin: 0;
+    font-weight: normal;
+}
+
+.contador-letras {
+    color: #7a6a5f;
+    font-size: 0.8em;
+    text-align: right;
+}
+
+.confirmacion {
+    background: #8b5a2b;
+    color: white;
+    border-radius: 10px;
+    padding: 18px;
+    margin: 20px 0;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.reserva-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: #f3e9dc;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    color: #3e2723;
+    font-size: 0.9em;
+    text-align: left;
+}
+
+/* ---------- Pantallas pequeñas ---------- */
+@media (max-width: 520px) {
+    .container { padding: 25px; }
+    .features { grid-template-columns: 1fr; }
+    .menu { grid-template-columns: repeat(2, 1fr); }
+    .today { grid-template-columns: 1fr; }
+    .toolbar { flex-direction: column; }
+    .reserva-item { flex-direction: column; align-items: flex-start; }
+}

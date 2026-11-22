@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frappuccino / Frappé - Café Aroma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap">
+    <link rel="stylesheet" href="estilo-cafe.css">
+</head>
+<body>
+    <header class="band hero">
+        <div class="inner">
+            <a class="back" href="carta.html">← Volver a la carta</a>
+            <div class="hero-grid">
+                <div class="hero-art"><img src="img/frappe.jpg" alt="Frappuccino / Frappé" width="640" height="640"></div>
+                <div class="hero-text">
+                    <h1>Frappuccino / Frappé</h1>
+                    <p class="subtitle">granizado de café con hielo y crema</p>
+                    <div class="facts">
+                        <div class="fact"><strong>4 min</strong><span>de preparación</span></div>
+                        <div class="fact"><strong>350 ml</strong><span>por servicio</span></div>
+                    </div>
+                    
+                    <div class="buy">
+                        <p class="price" id="precio"></p>
+                        <a class="pill" href="carta.html">Pedir en la carta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="band tan">
+        <div class="inner">
+            <h2>Ingredientes</h2>
+            <ul class="ing-list"><li class="ing"><div class="medal"><span>60 ml</span></div><div class="name">espresso frío</div></li><li class="ing"><div class="medal"><span>1 taza</span></div><div class="name">hielo</div></li><li class="ing"><div class="medal"><span>100 ml</span></div><div class="name">leche</div></li><li class="ing"><div class="medal"><span>al gusto</span></div><div class="name">crema</div></li></ul>
+        </div>
+    </section>
+
+    <section class="band beige">
+        <div class="inner two">
+            <div>
+                <h2>Su historia</h2>
+                <p class="history">El frappé nació en Grecia en 1957, en la feria de Salónica: un empleado de Nescafé, Dimitris Vakondios, quiso tomar café instantáneo sin agua caliente y lo agitó con agua fría y hielo en una coctelera. El frappuccino es la versión licuada y con crema que popularizaron las cafeterías de cadena en los años 90.</p>
+            </div>
+            <div>
+                <h2>Procedimiento</h2>
+                <ol class="steps"><li>Deja enfriar el espresso.</li><li>Licúa el espresso con el hielo, la leche y azúcar si lo deseas.</li><li>Sirve en un vaso alto.</li><li>Corona con crema.</li></ol>
+            </div>
+        </div>
+    </section>
+
+    <footer class="band foot">
+        <div class="inner">
+            <h2>También te puede gustar</h2>
+            <div class="rel-list"><a class="rel" href="affogato.html"><img src="img/affogato.jpg" alt="" width="150" height="150" loading="lazy"><strong>Affogato</strong><span>S/ 12</span></a><a class="rel" href="cafe-con-leche.html"><img src="img/cafe-con-leche.jpg" alt="" width="150" height="150" loading="lazy"><strong>Café con leche</strong><span>S/ 7</span></a><a class="rel" href="espresso-martini.html"><img src="img/espresso-martini.jpg" alt="" width="150" height="150" loading="lazy"><strong>Espresso Martini</strong><span>S/ 20</span></a></div>
+            <p class="phrase">“Toda buena mañana empieza con un buen café”</p>
+            <a class="pill" href="carta.html">Volver a la carta</a>
+        </div>
+    </footer>
+
+    <script>
+        var nombre = 'Frappuccino / Frappé';
+        var precio = 12;
+
+        var elPrecio = document.getElementById('precio');
+        elPrecio.textContent = 'S/ ' + precio;
+    </script>
+</body>
+</html>
