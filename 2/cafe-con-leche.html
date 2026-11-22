@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café con leche - Café Aroma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap">
+    <link rel="stylesheet" href="estilo-cafe.css">
+</head>
+<body>
+    <header class="band hero">
+        <div class="inner">
+            <a class="back" href="carta.html">← Volver a la carta</a>
+            <div class="hero-grid">
+                <div class="hero-art"><img src="img/cafe-con-leche.jpg" alt="Café con leche" width="640" height="640"></div>
+                <div class="hero-text">
+                    <h1>Café con leche</h1>
+                    <p class="subtitle">el clásico casero, mitad café y mitad leche</p>
+                    <div class="facts">
+                        <div class="fact"><strong>3 min</strong><span>de preparación</span></div>
+                        <div class="fact"><strong>200 ml</strong><span>por servicio</span></div>
+                    </div>
+                    
+                    <div class="buy">
+                        <p class="price" id="precio"></p>
+                        <a class="pill" href="carta.html">Pedir en la carta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="band tan">
+        <div class="inner">
+            <h2>Ingredientes</h2>
+            <ul class="ing-list"><li class="ing"><div class="medal"><span>100 ml</span></div><div class="name">café fuerte</div></li><li class="ing"><div class="medal"><span>100 ml</span></div><div class="name">leche caliente</div></li></ul>
+        </div>
+    </section>
+
+    <section class="band beige">
+        <div class="inner two">
+            <div>
+                <h2>Su historia</h2>
+                <p class="history">Es una de las formas más caseras de tomar café: se mezcla café y leche caliente en partes parecidas, casi al 50 %. En España y en Latinoamérica es el desayuno de siempre, y cada región y cada familia tiene su propia proporción.</p>
+            </div>
+            <div>
+                <h2>Procedimiento</h2>
+                <ol class="steps"><li>Prepara el café bien concentrado.</li><li>Calienta la leche sin dejar que hierva.</li><li>Mezcla en partes parecidas en la taza.</li><li>Añade azúcar al gusto.</li></ol>
+            </div>
+        </div>
+    </section>
+
+    <footer class="band foot">
+        <div class="inner">
+            <h2>También te puede gustar</h2>
+            <div class="rel-list"><a class="rel" href="espresso-martini.html"><img src="img/espresso-martini.jpg" alt="" width="150" height="150" loading="lazy"><strong>Espresso Martini</strong><span>S/ 20</span></a><a class="rel" href="caramel-macchiato.html"><img src="img/caramel-macchiato.jpg" alt="" width="150" height="150" loading="lazy"><strong>Caramel Macchiato</strong><span>S/ 12</span></a><a class="rel" href="turco.html"><img src="img/turco.jpg" alt="" width="150" height="150" loading="lazy"><strong>Café Turco</strong><span>S/ 8</span></a></div>
+            <p class="phrase">“Toda buena mañana empieza con un buen café”</p>
+            <a class="pill" href="carta.html">Volver a la carta</a>
+        </div>
+    </footer>
+
+    <script>
+        var nombre = 'Café con leche';
+        var precio = 7;
+
+        var elPrecio = document.getElementById('precio');
+        elPrecio.textContent = 'S/ ' + precio;
+    </script>
+</body>
+</html>

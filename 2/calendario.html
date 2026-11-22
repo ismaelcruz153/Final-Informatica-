@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafés de cada día - Café Aroma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* Colores en variables: así el modo día/noche solo tendrá que cambiar estos valores */
+        :root {
+            --negro: #140e0c;
+            --panel: #2a1a14;
+            --linea: #4a2f22;
+            --oro: #e6c28f;
+            --crema: #f4e8d6;
+            --tostado: #b98b62;
+            --texto-suave: #cdb89a;
+            --vidrio: rgba(24,15,12,.72);
+            --texto-boton: #2a1810;
+            --hoy-fondo: #e6c28f;
+            --hoy-texto: #2a1810;
+        }
+
+        body { font-family: "Open Sans", Arial, sans-serif; background: var(--negro); color: var(--crema); line-height: 1.6; min-height: 100vh; padding: 28px 16px 48px; }
+        a { color: inherit; }
+        :focus-visible { outline: 3px solid var(--oro); outline-offset: 3px; }
+
+        /* ---------- Fondo: café humeante (igual que la carta) ---------- */
+        .fondo { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-color: #140e0c;
+            background-image: linear-gradient(rgba(20,14,12,.25), rgba(20,14,12,.25)), url("img/fondo-pagina.jpg");
+            background-size: cover; background-position: center; background-repeat: no-repeat; }
+
+        /* ---------- Panel principal ---------- */
+        .container { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; padding: 40px 36px 36px; text-align: center;
+            background: var(--vidrio); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--linea); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+        .back { display: inline-block; margin-bottom: 18px; color: var(--oro); font-size: .95em; text-decoration: none; }
+        .back:hover { text-decoration: underline; }
+        .logo { width: 58px; height: 58px; margin: 0 auto 14px; border-radius: 14px; background: var(--panel); padding: 6px; display: flex; align-items: center; justify-content: center; font-size: 28px; overflow: hidden; }
+        h1 { font-family: "Lobster", Georgia, cursive; font-weight: 400; font-size: clamp(2.6rem, 7vw, 3.8rem); line-height: 1.05; color: var(--oro); margin-bottom: 12px; }
+        .subtitle { color: var(--oro); font-size: 1.15em; font-weight: 700; margin-bottom: 8px; }
+        .subtitle::first-letter { text-transform: uppercase; }
+        .hint { color: var(--texto-suave); font-size: .95em; margin: 6px auto 14px; max-width: 60ch; }
+
+        .status { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: .88em; font-weight: 700; margin-bottom: 12px; background: #3b2a20; color: var(--crema); }
+        .status.abierto { background: #1f3d22; color: #bfe8b8; }
+        .status.cerrado { background: #4a1f1a; color: #f3b9b0; }
+
+        /* ---------- Calendario de cafés ---------- */
+        .calendar { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; margin: 20px 0 6px; text-align: left; }
+        .day { background: var(--panel); border: 1px solid var(--linea); border-radius: 14px; padding: 14px 16px; transition: border-color .25s; }
+        .day:hover { border-color: var(--oro); }
+        .day-number { font-weight: 700; color: var(--oro); margin-bottom: 6px; }
+        .day a { display: block; color: var(--crema); text-decoration: none; font-size: .92em; padding: 2px 0; }
+        .day a:hover { color: var(--oro); text-decoration: underline; }
+
+        /* El día de hoy */
+        .day.today { background: var(--hoy-fondo); border-color: var(--hoy-fondo); }
+        .day.today .day-number,
+        .day.today a { color: var(--hoy-texto); }
+        .day.today a:hover { color: #000; }
+
+        @media (max-width: 560px) {
+            body { padding: 14px 10px 30px; }
+            .container { padding: 28px 18px; }
+            .calendar { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="fondo" aria-hidden="true">
+    </div>
+
+    <div class="container">
+        <a class="back" href="cafe-aroma.html">← Volver al inicio</a>
+        <div class="logo">☕</div>
+        <h1>Cafés de cada día</h1>
+        <p class="status" id="estado-cafeteria"></p>
+        <p class="subtitle" id="mes-titulo"></p>
+        <p class="hint">Cada día tiene 3 cafés distintos, elegidos al azar. Toca uno para conocer su historia. El día de hoy aparece resaltado.</p>
+        <!-- El script crea aquí una tarjeta por cada día del mes -->
+        <div class="calendar" id="calendario"></div>
+    </div>
+
+    <script src="cafes.js"></script>
+    <script src="logo.js"></script>
+    <script>
+        /* ---------- 1. Fecha de hoy (objeto Date) ---------- */
+        var hoy = new Date();
+        var anioActual = hoy.getFullYear();
+        var mesActual = hoy.getMonth();               // 0 = enero ... 11 = diciembre
+        var diaActual = hoy.getDate();
+
+        var totalDias = diasDelMes(anioActual, mesActual);   // función de cafes.js
+
+        var elTitulo = document.getElementById('mes-titulo');
+        elTitulo.textContent = nombresMes[mesActual] + ' de ' + anioActual + ' (' + totalDias + ' días)';
+
+        /* ---------- 2. Una tarjeta por cada día del mes (bucle for) ---------- */
+        var elCalendario = document.getElementById('calendario');
+
+        for (var dia = 1; dia <= totalDias; dia++) {
+            var tarjeta = document.createElement('div');
+
+            if (dia === diaActual) {
+                tarjeta.setAttribute('class', 'day today');   // resalta el día de hoy
+            } else {
+                tarjeta.setAttribute('class', 'day');
+            }
+
+            // los 3 cafés de ese día (función de cafes.js)
+            var cafes = elegirCafesDelDia(anioActual, mesActual, dia);
+
+            var contenido = '<div class="day-number">Día ' + dia + '</div>';
+
+            for (var c = 0; c < 3; c++) {
+                contenido = contenido + '<a href="' + paginas[cafes[c]] + '">' + menu[cafes[c]] + '</a>';
+            }
+
+            tarjeta.innerHTML = contenido;
+            elCalendario.appendChild(tarjeta);
+        }
+    </script>
+</body>
+</html>
